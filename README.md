@@ -197,7 +197,7 @@ jd-resume-match-agent-with-zypher/
 
 ## 🎯 Assessment Deliverables
 
-✅ **GitHub Repository**: [Your repo URL]
+✅ **GitHub Repository**: [https://github.com/FelixNg1022/jd-resume-match-agent-with-zypher.git]
 ✅ **Run Instructions**: See "Quick Start" section above
 ✅ **Demo Video**: [Link to your screen recording]
 
