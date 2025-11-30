@@ -159,10 +159,6 @@ jd-resume-match-agent-with-zypher/
 - Always use `deno task run:cli` or `deno task run:server`
 - These commands include `--config deno.json` which loads import maps
 
-## 📚 Additional Documentation
-
-- **[LLM Provider Comparison](./LLM_PROVIDER_COMPARISON.md)** - Detailed comparison of Groq, OpenAI, and other providers
-- **[Troubleshooting Guide](./TROUBLESHOOTING.md)** - Common issues and solutions
 
 ## 📝 Notes
 
