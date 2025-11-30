@@ -1,0 +1,47 @@
+<svg width="400" height="120" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Animated gradient matching the h1 styling -->
+    <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" style="stop-color:#818cf8;stop-opacity:1" />
+      <stop offset="30%" style="stop-color:#a78bfa;stop-opacity:1" />
+      <stop offset="60%" style="stop-color:#60a5fa;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#818cf8;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Glow filter for drop shadow effect -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- Animated gradient for shimmer effect -->
+    <linearGradient id="shimmerGradient" x1="0%" y1="0%" x2="200%" y2="0%">
+      <stop offset="0%" style="stop-color:#818cf8;stop-opacity:1" />
+      <stop offset="30%" style="stop-color:#a78bfa;stop-opacity:1" />
+      <stop offset="60%" style="stop-color:#60a5fa;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#818cf8;stop-opacity:1" />
+      <animate attributeName="x1" values="0%;200%" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="x2" values="200%;400%" dur="3s" repeatCount="indefinite"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Target emoji as SVG circles -->
+  <g transform="translate(20, 20)">
+    <!-- Outer circle -->
+    <circle cx="30" cy="30" r="28" fill="none" stroke="url(#textGradient)" stroke-width="3" opacity="0.8"/>
+    <circle cx="30" cy="30" r="20" fill="none" stroke="url(#textGradient)" stroke-width="2" opacity="0.6"/>
+    <circle cx="30" cy="30" r="12" fill="none" stroke="url(#textGradient)" stroke-width="2" opacity="0.4"/>
+    <!-- Center dot -->
+    <circle cx="30" cy="30" r="4" fill="url(#textGradient)"/>
+  </g>
+  
+  <!-- JobMatch AI text -->
+  <text x="80" y="70" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif" 
+        font-size="48" font-weight="800" letter-spacing="-0.96" 
+        fill="url(#shimmerGradient)" filter="url(#glow)">
+    JobMatch AI
+  </text>
+</svg>

@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="logo-horizontal.svg" alt="JobMatch AI Logo" width="400">
+</div>
+
 # 🎯 JobMatch AI
 
 An AI-powered job matching agent built with **CoreSpeed's Zypher framework** that intelligently analyzes job descriptions and resumes to provide actionable insights and find matching opportunities.

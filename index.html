@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JobMatch AI</title>
+    <link rel="icon" type="image/svg+xml" href="logo-icon-only.svg">
     <style>
       * { box-sizing: border-box; }
       
@@ -341,8 +342,23 @@
         to { opacity: 1; transform: translateY(0); }
       }
       
+      .logo-header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 8px;
+        animation: fadeIn 0.8s ease-out;
+      }
+      
+      .logo-header img {
+        height: 60px;
+        width: auto;
+        filter: drop-shadow(0 0 20px rgba(129, 140, 248, 0.5));
+      }
+      
       h1 { 
         margin-top: 0;
+        margin-bottom: 0;
         background: linear-gradient(135deg, #818cf8 0%, #a78bfa 30%, #60a5fa 60%, #818cf8 100%);
         background-size: 200% 200%;
         -webkit-background-clip: text;
@@ -351,9 +367,24 @@
         font-size: 2.5em;
         font-weight: 800;
         letter-spacing: -0.02em;
-        margin-bottom: 8px;
         animation: fadeIn 0.8s ease-out, textShimmer 3s ease-in-out infinite;
         filter: drop-shadow(0 0 20px rgba(129, 140, 248, 0.5));
+      }
+      
+      @media (max-width: 768px) {
+        .logo-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 12px;
+        }
+        
+        .logo-header img {
+          height: 48px;
+        }
+        
+        h1 {
+          font-size: 1.8em;
+        }
       }
       
       @keyframes textShimmer {
@@ -940,7 +971,10 @@
   </head>
   <body>
     <div class="container">
-      <h1>🎯 JobMatch AI</h1>
+      <div class="logo-header">
+        <img src="logo-horizontal.svg" alt="JobMatch AI Logo">
+        <h1>JobMatch AI</h1>
+      </div>
       <p class="subtitle">Powered by CoreSpeed's Zypher AI Agent Framework</p>
       
       <!-- Unified Input Form -->
