@@ -82,6 +82,17 @@ async function start() {
           const result = await searchAndRankJobs(resume, preferences);
           return new Response(JSON.stringify({ result }), { headers: { "Content-Type": "application/json" } });
         }
+        
+        // Serve logo files for favicon
+        if (url.pathname === "/logo-icon-only.svg") {
+          try {
+            const logo = await Deno.readTextFile("logo-icon-only.svg");
+            return new Response(logo, { headers: { "Content-Type": "image/svg+xml" } });
+          } catch {
+            return new Response("Not found", { status: 404 });
+          }
+        }
+        
         // serve index.html from project root
         const html = await Deno.readTextFile("index.html");
         return new Response(html, { headers: { "Content-Type": "text/html" } });

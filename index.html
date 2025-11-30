@@ -4,7 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JobMatch AI</title>
-    <link rel="icon" type="image/svg+xml" href="logo-icon-only.svg">
+    <link rel="icon" type="image/svg+xml" href="/logo-icon-only.svg">
+    <link rel="alternate icon" href="/logo-icon-only.svg">
     <style>
       * { box-sizing: border-box; }
       
@@ -350,10 +351,8 @@
         animation: fadeIn 0.8s ease-out;
       }
       
-      .logo-header img {
-        height: 60px;
-        width: auto;
-        filter: drop-shadow(0 0 20px rgba(129, 140, 248, 0.5));
+      .logo-header svg {
+        filter: drop-shadow(0 0 15px rgba(129, 140, 248, 0.5));
       }
       
       h1 { 
@@ -378,8 +377,9 @@
           gap: 12px;
         }
         
-        .logo-header img {
+        .logo-header svg {
           height: 48px;
+          width: 48px;
         }
         
         h1 {
@@ -972,7 +972,29 @@
   <body>
     <div class="container">
       <div class="logo-header">
-        <img src="logo-horizontal.svg" alt="JobMatch AI Logo">
+        <svg width="80" height="80" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" style="height: 60px; width: 60px; flex-shrink: 0;">
+          <defs>
+            <linearGradient id="logoIconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#818cf8;stop-opacity:1" />
+              <stop offset="30%" style="stop-color:#a78bfa;stop-opacity:1" />
+              <stop offset="60%" style="stop-color:#60a5fa;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#818cf8;stop-opacity:1" />
+            </linearGradient>
+            <filter id="logoIconGlow">
+              <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <g transform="translate(40, 40)">
+            <circle cx="0" cy="0" r="32" fill="none" stroke="url(#logoIconGradient)" stroke-width="3" opacity="0.8" filter="url(#logoIconGlow)"/>
+            <circle cx="0" cy="0" r="22" fill="none" stroke="url(#logoIconGradient)" stroke-width="2.5" opacity="0.6"/>
+            <circle cx="0" cy="0" r="13" fill="none" stroke="url(#logoIconGradient)" stroke-width="2" opacity="0.4"/>
+            <circle cx="0" cy="0" r="5" fill="url(#logoIconGradient)" filter="url(#logoIconGlow)"/>
+          </g>
+        </svg>
         <h1>JobMatch AI</h1>
       </div>
       <p class="subtitle">Powered by CoreSpeed's Zypher AI Agent Framework</p>
