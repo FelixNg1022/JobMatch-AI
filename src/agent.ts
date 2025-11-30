@@ -14,11 +14,9 @@ function getProviderFromEnv() {
   // Groq is OpenAI-compatible, so we can use OpenAIModelProvider with Groq's endpoint
   const groqKey = Deno.env.get("GROQ_API_KEY");
   if (groqKey) {
-    console.log("🔵 Using Groq API via OpenAI-compatible endpoint");
     // Set OPENAI_BASE_URL so OpenAI SDK uses Groq's endpoint
     // The OpenAI SDK (used by Zypher internally) reads this environment variable
     Deno.env.set("OPENAI_BASE_URL", "https://api.groq.com/openai/v1");
-    console.log("🔧 Configured OPENAI_BASE_URL to: https://api.groq.com/openai/v1");
     // Use Groq API key as OpenAI API key (Groq accepts it)
     return new OpenAIModelProvider({ apiKey: groqKey });
   }
@@ -28,7 +26,6 @@ function getProviderFromEnv() {
   Deno.env.delete("OPENAI_BASE_URL");
   const key = Deno.env.get("OPENAI_API_KEY");
   if (!key) throw new Error("Set OPENAI_API_KEY or GROQ_API_KEY in environment to run the agent.");
-  console.log("🔵 Using OpenAI API");
   return new OpenAIModelProvider({ apiKey: key });
 }
 
@@ -90,14 +87,10 @@ Output JSON only:
       // Currently available: llama-3.1-8b-instant, gemma2-9b-it
       // Note: llama-3.1-70b-versatile and mixtral-8x7b-32768 have been decommissioned
       modelName = Deno.env.get("GROQ_MODEL") || "llama-3.1-8b-instant";
-      console.log(`🤖 Running AI agent with Groq model: ${modelName}...`);
-      console.log(`🔑 Groq API Key present: Yes (starts with ${groqKey.substring(0, 7)}...)`);
     } else {
       // OpenAI models: gpt-4o, gpt-4o-mini, gpt-4-turbo, gpt-3.5-turbo
       modelName = Deno.env.get("OPENAI_MODEL") || "gpt-4o-mini";
       const apiKey = Deno.env.get("OPENAI_API_KEY");
-      console.log(`🤖 Running AI agent with OpenAI model: ${modelName}...`);
-      console.log(`🔑 API Key present: ${apiKey ? 'Yes (starts with ' + apiKey.substring(0, 7) + '...)' : 'NO - THIS IS THE PROBLEM!'}`);
       if (!apiKey) {
         throw new Error("OPENAI_API_KEY is not set in environment");
       }
@@ -120,52 +113,24 @@ Output JSON only:
         throw new Error(`Agent task error: ${JSON.stringify(e)}`);
       }
     }
-    if (resultText.length > 0) {
-      console.log(`✅ Agent completed. Received ${resultText.length} characters of response.`);
-      console.log(`📝 First 500 chars of response: ${resultText.substring(0, 500)}`);
-    } else {
-      console.warn("⚠️  Agent returned empty response. This should not happen if API is working.");
-    }
   } catch (err: unknown) {
-    // Log the full error to understand what's happening
-    console.error("🔍 Full error object:", err);
-    console.error("🔍 Error type:", typeof err);
-    console.error("🔍 Error stringified:", JSON.stringify(err, null, 2));
-    
     // Provide user-friendly error messages for common API errors
     if (err && typeof err === "object" && "status" in err) {
-      const apiError = err as { status?: number; code?: string; message?: string; response?: any };
-      console.error("🔍 API Error details:", {
-        status: apiError.status,
-        code: apiError.code,
-        message: apiError.message,
-      });
+      const apiError = err as { status?: number; code?: string; message?: string };
       
       if (apiError.status === 429) {
         if (apiError.code === "insufficient_quota") {
-          console.error("❌ OpenAI API QUOTA EXCEEDED!");
-          console.error("   Your OpenAI account has no credits or quota remaining.");
-          console.error("   Please add billing information at: https://platform.openai.com/account/billing");
-          console.error("   Or check your usage at: https://platform.openai.com/usage");
-          console.warn("   ⚠️  Using fallback parser instead (suggestions will be template-based).");
+          console.error("❌ API quota exceeded. Using fallback parser.");
         } else {
-          console.warn("⚠️  OpenAI API rate limit exceeded. Using fallback parser instead.");
+          console.warn("⚠️  API rate limit exceeded. Using fallback parser.");
         }
       } else if (apiError.status === 401) {
-        console.error("❌ OpenAI API AUTHENTICATION FAILED!");
-        console.error("   Your API key is invalid or expired.");
-        console.error("   Get a new key at: https://platform.openai.com/api-keys");
-        console.warn("   ⚠️  Using fallback parser instead.");
+        console.error("❌ API authentication failed. Using fallback parser.");
       } else {
-        console.warn(`⚠️  OpenAI API error (${apiError.status}). Using fallback parser instead.`);
+        console.warn(`⚠️  API error (${apiError.status}). Using fallback parser.`);
       }
-    } else {
-      console.warn("⚠️  Agent error occurred. Using fallback parser instead.");
-      console.error("Error details:", err);
-      if (err instanceof Error) {
-        console.error("Error message:", err.message);
-        console.error("Error stack:", err.stack);
-      }
+    } else if (err instanceof Error) {
+      console.error("Agent error:", err.message);
     }
     // Don't re-throw - fall back to parser instead
     resultText = "";
@@ -247,7 +212,6 @@ Output JSON only:
                     }
                     // Double-check: if it's in resume, it shouldn't be in missing_skills
                     if (resumeLower.includes(skillLower)) {
-                      console.warn(`⚠️  LLM incorrectly marked "${skill}" as missing, but it's in the resume. Moving to matched_skills.`);
                       // Move to matched_skills if not already there
                       if (!parsedJson.matched_skills.some((s: string) => s.toLowerCase() === skillLower)) {
                         parsedJson.matched_skills.push(skill);
@@ -260,34 +224,21 @@ Output JSON only:
                   .filter((skill: string) => skill.length > 0);
                 
                 parsed = parsedJson;
-                console.log("✅ Using LLM-generated analysis with suggestions:", parsedJson.suggestions?.length || 0);
-                console.log(`📊 After filtering: ${parsedJson.matched_skills.length} matched, ${parsedJson.missing_skills.length} missing`);
               } else {
                 console.warn("⚠️  Parsed JSON missing required fields, using fallback");
                 parsed = null;
               }
           }
         } catch (parseErr) {
-          console.warn("Failed to parse JSON from agent output:", parseErr);
-          console.warn("Raw response snippet:", resultText.substring(0, 500));
-        }
-      } else {
-        console.warn("⚠️  No JSON object found in agent response. Response preview:", resultText.substring(0, 500));
-        // Log more of the response to help debug
-        if (resultText.length > 500) {
-          console.warn("Full response length:", resultText.length, "chars");
+          // Ignore parse errors, will use fallback parser
         }
       }
-    } else {
-      console.warn("⚠️  resultText is empty - agent did not return any response");
     }
   } catch (err) {
     // Ignore JSON parse errors and use fallback parser
-    console.warn("Failed to parse JSON from agent output:", err);
   }
 
   if (!parsed) {
-      console.log("📊 Using fallback parser for analysis (LLM did not return valid response)...");
       const jdSkills = fallbackParseSkills(jdText);
       const resumeSkills = fallbackParseSkills(resumeText);
 
@@ -390,7 +341,6 @@ export async function searchAndRankJobs(
       searchQuery = `${role} ${keywords}`;
     }
     
-    console.log(`🔍 Searching for jobs: "${searchQuery}"${location ? ` in ${location}` : ""}`);
     
     // Search for jobs (limit to 10 for processing)
     const searchResults = await searchJobs(searchQuery, location, 10);
@@ -403,7 +353,6 @@ export async function searchAndRankJobs(
       };
     }
     
-    console.log(`📋 Found ${searchResults.length} job listings. Analyzing matches...`);
     
     // Filter out job boards BEFORE analysis to save time
     // Using job board names (not exact domains) to catch all variations (.com, .ca, .co.uk, etc.)
@@ -461,7 +410,6 @@ export async function searchAndRankJobs(
     });
     
     if (filteredResults.length === 0) {
-      console.log("⚠️  All results were from job boards. No direct company job postings found.");
       return {
         jobs: [],
         totalFound: searchResults.length,
@@ -469,18 +417,13 @@ export async function searchAndRankJobs(
       };
     }
     
-    console.log(`✅ Filtered out ${searchResults.length - filteredResults.length} job board results. ${filteredResults.length} direct company postings remaining.`);
-    
     // Extract content and score each job
     // Limit to 3 jobs for faster processing (analyzing each job takes time)
     const jobsWithScores: JobListing[] = [];
     const jobsToAnalyze = Math.min(filteredResults.length, 3);
     
-    console.log(`⏱️  Analyzing ${jobsToAnalyze} jobs (this may take a minute)...`);
-    
     for (let i = 0; i < jobsToAnalyze; i++) {
       const result = filteredResults[i];
-      console.log(`\n[${i + 1}/${jobsToAnalyze}] Analyzing: ${result.title}`);
       
       try {
         // Extract full job description
@@ -491,7 +434,6 @@ export async function searchAndRankJobs(
         // Skip fetching full content if we already have good content (saves time)
         // Only fetch if content is very short (< 200 chars)
         if (jobDescription.length < 200) {
-          console.log(`   📄 Content too short, fetching full page...`);
           const fullContent = await extractJobContent(result.url);
           if (fullContent && fullContent.length > jobDescription.length) {
             jobDescription = fullContent;
@@ -525,9 +467,8 @@ export async function searchAndRankJobs(
           },
         });
         
-        console.log(`   ✅ Score: ${cappedScore}/100`);
       } catch (err) {
-        console.warn(`   ⚠️  Failed to analyze job: ${err}`);
+        console.warn(`Failed to analyze job: ${err}`);
         // Still add the job but without score
         jobsWithScores.push({
           title: result.title,
@@ -542,7 +483,6 @@ export async function searchAndRankJobs(
     jobsWithScores.sort((a, b) => (b.score || 0) - (a.score || 0));
     const topJobs = jobsWithScores; // Already limited to 3, no need to slice again
     
-    console.log(`\n✅ Top ${topJobs.length} matching jobs found!`);
     
     return {
       jobs: topJobs,

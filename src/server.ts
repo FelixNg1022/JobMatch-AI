@@ -20,13 +20,7 @@ async function start() {
               headers: { "Content-Type": "application/json" },
             });
           }
-          console.log("📥 Received /analyze request");
-          console.log(`   JD length: ${jd.length} chars`);
-          console.log(`   Resume length: ${resume.length} chars`);
           const analysis = await analyzeJDResume(jd, resume);
-          const isLLMGenerated = analysis.suggestions && analysis.suggestions.length > 0 && 
-                                 !analysis.suggestions[0].includes("Add experience or projects demonstrating");
-          console.log(`✅ Analysis complete. Score: ${analysis.score}, Suggestions: ${analysis.suggestions?.length || 0} (${isLLMGenerated ? 'LLM-generated' : 'fallback-generated'})`);
           return new Response(JSON.stringify({ analysis }), { headers: { "Content-Type": "application/json" } });
         }
         
@@ -54,12 +48,8 @@ async function start() {
             const arrayBuffer = await pdfFile.arrayBuffer();
             const pdfBuffer = new Uint8Array(arrayBuffer);
             
-            console.log(`📄 Processing PDF upload: ${pdfFile.name} (${pdfBuffer.length} bytes)`);
-            
             // Extract text from PDF
             const extractedText = await extractTextFromPDF(pdfBuffer);
-            
-            console.log(`✅ PDF parsed successfully. Extracted ${extractedText.length} characters`);
             
             return new Response(JSON.stringify({ text: extractedText }), {
               headers: { "Content-Type": "application/json" },

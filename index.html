@@ -22,21 +22,16 @@
         50% { opacity: 0.7; }
       }
       
-      @keyframes shimmer {
-        0% { background-position: -1000px 0; }
-        100% { background-position: 1000px 0; }
-      }
-      
       body { 
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; 
         max-width: 1200px; 
         margin: 0 auto; 
         padding: 20px; 
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%);
+        background: linear-gradient(135deg, #0a0e27 0%, #1a1b3a 20%, #2d1b69 40%, #1e3a8a 60%, #0f4c75 80%, #0a0e27 100%);
         background-size: 400% 400%;
-        animation: gradientShift 15s ease infinite;
+        animation: gradientShift 20s ease infinite;
         min-height: 100vh;
-        color: #333;
+        color: #e2e8f0;
         position: relative;
         overflow-x: hidden;
       }
@@ -163,6 +158,97 @@
           width: 100%;
           flex-wrap: wrap;
         }
+      }
+      
+      /* Reusable utility classes */
+      .resume-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+      
+      .upload-controls {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      
+      .pdf-upload-label {
+        margin: 0;
+        cursor: pointer;
+        padding: 10px 18px;
+        background: rgba(30, 41, 59, 0.8);
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(99, 102, 241, 0.4);
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #818cf8;
+        transition: all 0.3s ease;
+      }
+      
+      .pdf-upload-label:hover {
+        background: rgba(30, 41, 59, 1);
+        border-color: rgba(129, 140, 248, 0.6);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+      }
+      
+      .pdf-file-name {
+        font-size: 0.9em;
+        color: #94a3b8;
+      }
+      
+      .tip-text {
+        color: #94a3b8;
+        font-size: 0.9em;
+        margin-top: -15px;
+        margin-bottom: 20px;
+      }
+      
+      .search-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        margin-bottom: 15px;
+      }
+      
+      .job-search-section {
+        display: none;
+        margin-top: 30px;
+        padding-top: 30px;
+        border-top: 2px solid rgba(99, 102, 241, 0.3);
+      }
+      
+      .section-description {
+        color: #94a3b8;
+        margin-bottom: 20px;
+      }
+      
+      .required-marker {
+        color: #f87171;
+      }
+      
+      .hidden {
+        display: none;
+      }
+      
+      .pdf-file-name.success {
+        color: #34d399;
+      }
+      
+      .pdf-upload-label.loading {
+        background: rgba(30, 41, 59, 0.9) !important;
+        cursor: not-allowed !important;
+      }
+      
+      .pdf-upload-label.default {
+        background: rgba(30, 41, 59, 0.8);
+        cursor: pointer;
+      }
+      
+      @media (max-width: 768px) {
         
         /* Adjust job search section spacing */
         #jobSearchSection {
@@ -179,25 +265,75 @@
         width: 100%;
         height: 100%;
         background: 
-          radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-          radial-gradient(circle at 80% 80%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-          radial-gradient(circle at 40% 20%, rgba(79, 172, 254, 0.3) 0%, transparent 50%);
+          radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.4) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(167, 139, 250, 0.4) 0%, transparent 50%),
+          radial-gradient(circle at 40% 20%, rgba(96, 165, 250, 0.4) 0%, transparent 50%),
+          radial-gradient(circle at 60% 70%, rgba(139, 92, 246, 0.3) 0%, transparent 50%);
         pointer-events: none;
         z-index: 0;
         animation: float 20s ease-in-out infinite;
       }
       
+      body::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+          linear-gradient(0deg, transparent 0%, rgba(99, 102, 241, 0.03) 50%, transparent 100%);
+        pointer-events: none;
+        z-index: 0;
+        animation: scanline 8s linear infinite;
+      }
+      
+      @keyframes scanline {
+        0% { transform: translateY(-100%); }
+        100% { transform: translateY(100vh); }
+      }
+      
       .container {
-        background: rgba(255, 255, 255, 0.95);
+        background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 41, 59, 0.85) 100%);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         border-radius: 24px;
         padding: 40px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 
+          0 8px 32px rgba(0, 0, 0, 0.5),
+          0 0 0 1px rgba(99, 102, 241, 0.3),
+          inset 0 1px 0 rgba(255, 255, 255, 0.1),
+          0 0 60px rgba(99, 102, 241, 0.2);
+        border: 2px solid transparent;
+        background-image: 
+          linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.85)),
+          linear-gradient(135deg, rgba(99, 102, 241, 0.4), rgba(167, 139, 250, 0.4), rgba(96, 165, 250, 0.4));
+        background-origin: border-box;
+        background-clip: padding-box, border-box;
         position: relative;
         z-index: 1;
         animation: fadeIn 0.6s ease-out;
+      }
+      
+      .container::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(135deg, #6366f1, #a78bfa, #60a5fa, #6366f1);
+        background-size: 300% 300%;
+        border-radius: 24px;
+        z-index: -1;
+        opacity: 0.6;
+        animation: borderGlow 3s ease infinite;
+        filter: blur(8px);
+      }
+      
+      @keyframes borderGlow {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
       }
       
       @keyframes fadeIn {
@@ -207,7 +343,8 @@
       
       h1 { 
         margin-top: 0;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+        background: linear-gradient(135deg, #818cf8 0%, #a78bfa 30%, #60a5fa 60%, #818cf8 100%);
+        background-size: 200% 200%;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -215,11 +352,17 @@
         font-weight: 800;
         letter-spacing: -0.02em;
         margin-bottom: 8px;
-        animation: fadeIn 0.8s ease-out;
+        animation: fadeIn 0.8s ease-out, textShimmer 3s ease-in-out infinite;
+        filter: drop-shadow(0 0 20px rgba(129, 140, 248, 0.5));
+      }
+      
+      @keyframes textShimmer {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
       }
       
       .subtitle {
-        color: #64748b;
+        color: #94a3b8;
         margin-bottom: 30px;
         font-size: 1em;
         font-weight: 500;
@@ -229,7 +372,7 @@
         display: block; 
         font-weight: 600; 
         margin-bottom: 8px;
-        color: #1e293b;
+        color: #e2e8f0;
         font-size: 0.95em;
       }
       
@@ -240,26 +383,66 @@
         font-family: 'Monaco', 'Menlo', monospace;
         font-size: 13px;
         padding: 16px;
-        border: 2px solid rgba(226, 232, 240, 0.8);
+        border: 2px solid rgba(99, 102, 241, 0.4);
         border-radius: 12px;
         resize: vertical;
         transition: all 0.3s ease;
-        background: rgba(255, 255, 255, 0.9);
+        background: linear-gradient(135deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.6) 100%);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
+        color: #e2e8f0;
+        box-shadow: 
+          0 2px 8px rgba(0, 0, 0, 0.2),
+          inset 0 1px 0 rgba(255, 255, 255, 0.05);
       }
       
       textarea:focus {
         outline: none;
-        border-color: #667eea;
-        box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
-        background: rgba(255, 255, 255, 1);
+        border-color: #818cf8;
+        box-shadow: 
+          0 0 0 4px rgba(129, 140, 248, 0.2),
+          0 0 20px rgba(99, 102, 241, 0.4),
+          inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.8) 100%);
         transform: translateY(-2px);
+      }
+      
+      input[type="text"] {
+        width: 100%;
+        padding: 14px 16px;
+        font-size: 16px;
+        border: 2px solid rgba(99, 102, 241, 0.4);
+        border-radius: 12px;
+        transition: all 0.3s ease;
+        background: linear-gradient(135deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.6) 100%);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        color: #e2e8f0;
+        font-family: inherit;
+        box-shadow: 
+          0 2px 8px rgba(0, 0, 0, 0.2),
+          inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      }
+      
+      input[type="text"]:focus {
+        outline: none;
+        border-color: #818cf8;
+        box-shadow: 
+          0 0 0 4px rgba(129, 140, 248, 0.2),
+          0 0 20px rgba(99, 102, 241, 0.4),
+          inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.8) 100%);
+        transform: translateY(-2px);
+      }
+      
+      input[type="text"]::placeholder {
+        color: #64748b;
       }
       
       button { 
         padding: 14px 28px; 
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #60a5fa 100%);
+        background-size: 200% 200%;
         color: white;
         border: none;
         border-radius: 12px;
@@ -268,9 +451,18 @@
         cursor: pointer;
         transition: all 0.3s ease;
         margin-bottom: 30px;
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        box-shadow: 
+          0 4px 15px rgba(99, 102, 241, 0.5),
+          0 0 20px rgba(99, 102, 241, 0.3),
+          inset 0 1px 0 rgba(255, 255, 255, 0.2);
         position: relative;
         overflow: hidden;
+        animation: buttonGradient 3s ease infinite;
+      }
+      
+      @keyframes buttonGradient {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
       }
       
       button::before {
@@ -280,7 +472,7 @@
         left: -100%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
         transition: left 0.5s;
       }
       
@@ -290,7 +482,12 @@
       
       button:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+        box-shadow: 
+          0 6px 25px rgba(99, 102, 241, 0.8),
+          0 0 40px rgba(129, 140, 248, 0.6),
+          inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        background: linear-gradient(135deg, #818cf8 0%, #a78bfa 50%, #60a5fa 100%);
+        background-size: 200% 200%;
       }
       
       button:active {
@@ -298,32 +495,51 @@
       }
       
       button:disabled {
-        background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%);
+        background: linear-gradient(135deg, #475569 0%, #334155 100%);
         cursor: not-allowed;
         box-shadow: none;
         transform: none;
       }
       .loading {
-        color: #64748b;
+        color: #94a3b8;
         font-style: italic;
         display: flex;
         align-items: center;
         gap: 12px;
         padding: 20px;
-        background: rgba(255, 255, 255, 0.6);
+        background: rgba(30, 41, 59, 0.6);
         backdrop-filter: blur(10px);
         border-radius: 12px;
-        border: 1px solid rgba(255, 255, 255, 0.3);
+        border: 1px solid rgba(99, 102, 241, 0.3);
       }
       
       .spinner {
-        border: 3px solid rgba(102, 126, 234, 0.2);
-        border-top: 3px solid #667eea;
+        border: 3px solid rgba(99, 102, 241, 0.3);
+        border-top: 3px solid #818cf8;
+        border-right: 3px solid #a78bfa;
         border-radius: 50%;
         width: 28px;
         height: 28px;
         animation: spin 1s linear infinite;
-        box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+        box-shadow: 
+          0 0 15px rgba(129, 140, 248, 0.6),
+          0 0 30px rgba(99, 102, 241, 0.4);
+        position: relative;
+      }
+      
+      .spinner::before {
+        content: '';
+        position: absolute;
+        top: -3px;
+        left: -3px;
+        right: -3px;
+        bottom: -3px;
+        border-radius: 50%;
+        border: 3px solid transparent;
+        border-top-color: #60a5fa;
+        border-right-color: #818cf8;
+        animation: spin 0.8s linear infinite reverse;
+        opacity: 0.6;
       }
       
       @keyframes spin {
@@ -333,61 +549,103 @@
       .results {
         margin-top: 30px;
         padding-top: 30px;
-        border-top: 2px solid rgba(226, 232, 240, 0.5);
+        border-top: 2px solid rgba(99, 102, 241, 0.3);
         animation: fadeIn 0.6s ease-out;
       }
       
       h2 {
         margin-top: 0;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #818cf8 0%, #a78bfa 50%, #60a5fa 100%);
+        background-size: 200% 200%;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
         font-weight: 700;
         font-size: 1.8em;
+        animation: textShimmer 4s ease-in-out infinite;
+        filter: drop-shadow(0 0 10px rgba(129, 140, 248, 0.4));
       }
       
       h3 {
         margin-top: 0;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #818cf8 0%, #a78bfa 50%, #60a5fa 100%);
+        background-size: 200% 200%;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
         font-weight: 700;
         font-size: 1.4em;
+        animation: textShimmer 4s ease-in-out infinite;
+        filter: drop-shadow(0 0 8px rgba(129, 140, 248, 0.3));
       }
       
       .result-card {
-        background: rgba(255, 255, 255, 0.7);
+        background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.7) 100%);
         backdrop-filter: blur(15px);
         -webkit-backdrop-filter: blur(15px);
-        border: 1px solid rgba(255, 255, 255, 0.5);
+        border: 2px solid transparent;
+        background-image: 
+          linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.7)),
+          linear-gradient(135deg, rgba(99, 102, 241, 0.4), rgba(139, 92, 246, 0.3));
+        background-origin: border-box;
+        background-clip: padding-box, border-box;
         border-radius: 16px;
         padding: 24px;
         margin-bottom: 20px;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        box-shadow: 
+          0 4px 15px rgba(0, 0, 0, 0.3),
+          0 0 20px rgba(99, 102, 241, 0.2),
+          inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        color: #e2e8f0;
+        position: relative;
+      }
+      
+      .result-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.6), transparent);
+        opacity: 0;
+        transition: opacity 0.3s ease;
       }
       
       .result-card:hover {
         transform: translateY(-4px);
-        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
-        border-color: rgba(102, 126, 234, 0.3);
+        box-shadow: 
+          0 8px 30px rgba(99, 102, 241, 0.5),
+          0 0 40px rgba(129, 140, 248, 0.4),
+          inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        border-color: rgba(129, 140, 248, 0.6);
+      }
+      
+      .result-card:hover::before {
+        opacity: 1;
       }
       .score {
         font-size: 3em;
         font-weight: 800;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #818cf8 0%, #a78bfa 50%, #60a5fa 100%);
+        background-size: 200% 200%;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
         margin: 10px 0;
-        animation: pulse 2s ease-in-out infinite;
+        animation: pulse 2s ease-in-out infinite, scoreShimmer 3s ease-in-out infinite;
         letter-spacing: -0.02em;
+        filter: drop-shadow(0 0 15px rgba(129, 140, 248, 0.6));
+      }
+      
+      @keyframes scoreShimmer {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
       }
       
       .score-label {
-        color: #64748b;
+        color: #94a3b8;
         font-size: 0.9em;
         margin-bottom: 20px;
         font-weight: 500;
@@ -399,12 +657,15 @@
       }
       .section-title {
         font-weight: 700;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #818cf8 0%, #a78bfa 50%, #60a5fa 100%);
+        background-size: 200% 200%;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
         margin-bottom: 12px;
         font-size: 1.1em;
+        animation: textShimmer 4s ease-in-out infinite;
+        filter: drop-shadow(0 0 8px rgba(129, 140, 248, 0.3));
       }
       .skills-list {
         display: flex;
@@ -413,30 +674,42 @@
         margin-top: 8px;
       }
       .skill-tag {
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
-        color: #667eea;
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.3) 0%, rgba(139, 92, 246, 0.3) 50%, rgba(96, 165, 250, 0.3) 100%);
+        background-size: 200% 200%;
+        color: #c7d2fe;
         padding: 6px 14px;
         border-radius: 20px;
         font-size: 0.85em;
         font-weight: 600;
-        border: 1px solid rgba(102, 126, 234, 0.2);
+        border: 1px solid rgba(129, 140, 248, 0.4);
         transition: all 0.2s ease;
         display: inline-block;
+        box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+        animation: tagGradient 4s ease infinite;
+      }
+      
+      @keyframes tagGradient {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
       }
       
       .skill-tag:hover {
         transform: scale(1.05);
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.25) 0%, rgba(118, 75, 162, 0.25) 100%);
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.5) 0%, rgba(139, 92, 246, 0.5) 50%, rgba(96, 165, 250, 0.5) 100%);
+        background-size: 200% 200%;
+        border-color: rgba(129, 140, 248, 0.7);
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.5);
       }
       
       .skill-tag.missing {
-        background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(220, 38, 38, 0.15) 100%);
-        color: #ef4444;
-        border-color: rgba(239, 68, 68, 0.2);
+        background: linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(220, 38, 38, 0.2) 100%);
+        color: #f87171;
+        border-color: rgba(239, 68, 68, 0.3);
       }
       
       .skill-tag.missing:hover {
-        background: linear-gradient(135deg, rgba(239, 68, 68, 0.25) 0%, rgba(220, 38, 38, 0.25) 100%);
+        background: linear-gradient(135deg, rgba(239, 68, 68, 0.3) 0%, rgba(220, 38, 38, 0.3) 100%);
+        border-color: rgba(239, 68, 68, 0.5);
       }
       .suggestions {
         list-style: none;
@@ -453,21 +726,34 @@
         left: 0;
       }
       .summary {
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
-        border-left: 4px solid #667eea;
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.2) 50%, rgba(96, 165, 250, 0.2) 100%);
+        background-size: 200% 200%;
+        border-left: 4px solid #818cf8;
         padding: 16px 20px;
         border-radius: 12px;
         margin-top: 20px;
         backdrop-filter: blur(10px);
-        border: 1px solid rgba(102, 126, 234, 0.2);
-        border-left-width: 4px;
+        border-right: 1px solid rgba(99, 102, 241, 0.4);
+        border-top: 1px solid rgba(99, 102, 241, 0.4);
+        border-bottom: 1px solid rgba(99, 102, 241, 0.4);
+        color: #e2e8f0;
+        box-shadow: 
+          0 4px 12px rgba(0, 0, 0, 0.2),
+          0 0 20px rgba(99, 102, 241, 0.2),
+          inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        animation: summaryGradient 5s ease infinite;
+      }
+      
+      @keyframes summaryGradient {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
       }
       .error {
-        background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(220, 38, 38, 0.15) 100%);
-        color: #dc2626;
+        background: linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(220, 38, 38, 0.2) 100%);
+        color: #f87171;
         padding: 16px;
         border-radius: 12px;
-        border: 1px solid rgba(239, 68, 68, 0.3);
+        border: 1px solid rgba(239, 68, 68, 0.4);
         backdrop-filter: blur(10px);
         font-weight: 500;
       }
@@ -484,17 +770,18 @@
       }
       
       details {
-        background: rgba(255, 255, 255, 0.5);
+        background: rgba(30, 41, 59, 0.6);
         backdrop-filter: blur(10px);
         border-radius: 12px;
         padding: 12px;
         margin-top: 20px;
-        border: 1px solid rgba(226, 232, 240, 0.5);
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        color: #e2e8f0;
       }
       
       details summary {
         cursor: pointer;
-        color: #667eea;
+        color: #818cf8;
         font-weight: 600;
         padding: 8px;
         border-radius: 8px;
@@ -502,18 +789,18 @@
       }
       
       details summary:hover {
-        background: rgba(102, 126, 234, 0.1);
+        background: rgba(99, 102, 241, 0.2);
       }
       .tabs {
         display: flex;
         gap: 10px;
         margin-bottom: 30px;
-        border-bottom: 2px solid #e2e8f0;
+        border-bottom: 2px solid rgba(99, 102, 241, 0.3);
       }
       .tab-btn {
         padding: 12px 24px;
         background: transparent;
-        color: #64748b;
+        color: #94a3b8;
         border: none;
         border-bottom: 3px solid transparent;
         font-size: 16px;
@@ -523,35 +810,60 @@
         margin-bottom: -2px;
       }
       .tab-btn:hover {
-        color: #2563eb;
+        color: #818cf8;
       }
       .tab-btn.active {
-        color: #2563eb;
-        border-bottom-color: #2563eb;
+        color: #818cf8;
+        border-bottom-color: #818cf8;
       }
       .tab-content {
         animation: fadeIn 0.3s;
       }
-      @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
       .job-card {
-        background: rgba(255, 255, 255, 0.8);
+        background: linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(15, 23, 42, 0.75) 100%);
         backdrop-filter: blur(15px);
         -webkit-backdrop-filter: blur(15px);
-        border: 2px solid rgba(226, 232, 240, 0.5);
+        border: 2px solid transparent;
+        background-image: 
+          linear-gradient(135deg, rgba(30, 41, 59, 0.85), rgba(15, 23, 42, 0.75)),
+          linear-gradient(135deg, rgba(99, 102, 241, 0.4), rgba(139, 92, 246, 0.3));
+        background-origin: border-box;
+        background-clip: padding-box, border-box;
         border-radius: 16px;
         padding: 24px;
         margin-bottom: 20px;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        box-shadow: 
+          0 4px 15px rgba(0, 0, 0, 0.3),
+          0 0 20px rgba(99, 102, 241, 0.2),
+          inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        color: #e2e8f0;
+        position: relative;
+      }
+      
+      .job-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.6), transparent);
+        opacity: 0;
+        transition: opacity 0.3s ease;
       }
       
       .job-card:hover {
-        border-color: rgba(102, 126, 234, 0.5);
-        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+        border-color: rgba(129, 140, 248, 0.7);
+        box-shadow: 
+          0 8px 30px rgba(99, 102, 241, 0.5),
+          0 0 40px rgba(129, 140, 248, 0.4),
+          inset 0 1px 0 rgba(255, 255, 255, 0.15);
         transform: translateY(-4px);
+      }
+      
+      .job-card:hover::before {
+        opacity: 1;
       }
       .job-header {
         display: flex;
@@ -562,14 +874,14 @@
       .job-title {
         font-size: 1.3em;
         font-weight: 700;
-        background: linear-gradient(135deg, #1e293b 0%, #475569 100%);
+        background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
         margin-bottom: 6px;
       }
       .job-company {
-        color: #64748b;
+        color: #94a3b8;
         font-size: 0.9em;
       }
       .job-score {
@@ -579,11 +891,13 @@
         border-radius: 12px;
         white-space: nowrap;
         backdrop-filter: blur(10px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
+        color: #a5b4fc;
       }
       .job-url {
-        color: #667eea;
+        color: #818cf8;
         text-decoration: none;
         font-size: 0.9em;
         word-break: break-all;
@@ -592,11 +906,11 @@
         display: inline-block;
       }
       .job-url:hover {
-        color: #764ba2;
+        color: #a78bfa;
         transform: translateX(4px);
       }
       .job-description {
-        color: #475569;
+        color: #cbd5e1;
         font-size: 0.95em;
         line-height: 1.6;
         margin: 12px 0;
@@ -622,19 +936,6 @@
         background: rgba(255, 255, 255, 1);
       }
       
-      label[for="pdfUpload"] {
-        background: rgba(255, 255, 255, 0.8) !important;
-        backdrop-filter: blur(10px);
-        border: 2px solid rgba(102, 126, 234, 0.3) !important;
-        transition: all 0.3s ease;
-      }
-      
-      label[for="pdfUpload"]:hover {
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%) !important;
-        border-color: #667eea !important;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
-      }
     </style>
   </head>
   <body>
@@ -644,24 +945,24 @@
       
       <!-- Unified Input Form -->
       <div>
-        <div class="resume-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-          <label for="resume">Resume <span style="color: #ef4444;">*</span></label>
-          <div class="upload-controls" style="display: flex; gap: 10px; align-items: center;">
-            <label for="pdfUpload" style="margin: 0; cursor: pointer; padding: 10px 18px; background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); border: 2px solid rgba(102, 126, 234, 0.3); border-radius: 10px; font-size: 14px; font-weight: 600; color: #667eea; transition: all 0.3s ease;">
+        <div class="resume-header">
+          <label for="resume">Resume <span class="required-marker">*</span></label>
+          <div class="upload-controls">
+            <label for="pdfUpload" class="pdf-upload-label default">
               📄 Upload PDF
             </label>
-            <input type="file" id="pdfUpload" accept=".pdf" style="display: none;" onchange="handlePDFUpload(event)">
-            <span id="pdfFileName" style="font-size: 0.9em; color: #64748b; display: none;"></span>
+            <input type="file" id="pdfUpload" accept=".pdf" class="hidden" onchange="handlePDFUpload(event)">
+            <span id="pdfFileName" class="pdf-file-name hidden"></span>
           </div>
         </div>
         <textarea id="resume" placeholder="Paste your resume text here or upload a PDF file... (Required)" required></textarea>
-        <p style="color: #64748b; font-size: 0.9em; margin-top: -15px; margin-bottom: 20px;">
+        <p class="tip-text">
           💡 <strong>Tip:</strong> You can either paste your resume text or upload a PDF file.
         </p>
 
         <label for="jd">Job Description (Optional)</label>
         <textarea id="jd" placeholder="Paste the full job description here... (Leave empty to search for matching jobs instead)"></textarea>
-        <p style="color: #64748b; font-size: 0.9em; margin-top: -15px; margin-bottom: 20px;">
+        <p class="tip-text">
           💡 <strong>Tip:</strong> If you leave this empty, we'll search the web for jobs that match your resume.
         </p>
 
@@ -669,35 +970,35 @@
       </div>
 
       <!-- Analysis Results Section -->
-      <div class="results" id="analysisResults" style="display: none;">
+      <div class="results hidden" id="analysisResults">
         <h2>📊 Analysis Results</h2>
         <div id="analysisOut"></div>
       </div>
       
       <!-- Job Search Results Section -->
-      <div class="results" id="jobSearchResults" style="display: none;">
+      <div class="results hidden" id="jobSearchResults">
         <h2>🔍 Job Search Results</h2>
         <div id="jobSearchOut"></div>
       </div>
       
       <!-- Job Search Options (shown after analysis or when JD is empty) -->
-      <div id="jobSearchSection" style="display: none; margin-top: 30px; padding-top: 30px; border-top: 2px solid #e2e8f0;">
+      <div id="jobSearchSection" class="job-search-section">
         <h3>🔍 Search for Matching Jobs</h3>
-        <p style="color: #64748b; margin-bottom: 20px;">Search the web for jobs that match your resume:</p>
+        <p class="section-description">Search the web for jobs that match your resume:</p>
         
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;" class="search-grid">
+        <div class="search-grid">
           <div>
             <label for="role">Role/Title</label>
-            <input type="text" id="role" placeholder="e.g., Software Engineer" style="width: 100%;">
+            <input type="text" id="role" placeholder="e.g., Software Engineer">
           </div>
           <div>
             <label for="location">Location (Optional)</label>
-            <input type="text" id="location" placeholder="e.g., San Francisco, CA" style="width: 100%;">
+            <input type="text" id="location" placeholder="e.g., San Francisco, CA">
           </div>
         </div>
         
         <label for="keywords">Additional Keywords (Optional)</label>
-        <input type="text" id="keywords" placeholder="e.g., remote, python, kubernetes" style="width: 100%; margin-bottom: 20px;">
+        <input type="text" id="keywords" placeholder="e.g., remote, python, kubernetes" style="margin-bottom: 20px;">
         
         <button id="searchBtn" onclick="searchJobs()">🔍 Search & Rank Jobs</button>
       </div>
@@ -721,8 +1022,8 @@
         
         // Show loading state
         uploadLabel.textContent = "⏳ Processing...";
-        uploadLabel.style.background = "#e2e8f0";
-        uploadLabel.style.cursor = "not-allowed";
+        uploadLabel.classList.add("loading");
+        uploadLabel.classList.remove("default");
         resumeTextarea.disabled = true;
         resumeTextarea.placeholder = "Extracting text from PDF...";
         
@@ -750,13 +1051,13 @@
           
           // Show file name
           fileNameSpan.textContent = `✓ ${file.name}`;
-          fileNameSpan.style.display = "inline";
-          fileNameSpan.style.color = "#10b981";
+          fileNameSpan.classList.remove("hidden");
+          fileNameSpan.classList.add("success");
           
           // Reset upload button
           uploadLabel.textContent = "📄 Upload PDF";
-          uploadLabel.style.background = "#f1f5f9";
-          uploadLabel.style.cursor = "pointer";
+          uploadLabel.classList.remove("loading");
+          uploadLabel.classList.add("default");
           
           // Clear file input (allows re-uploading same file)
           event.target.value = "";
@@ -767,11 +1068,12 @@
           
           // Reset UI
           uploadLabel.textContent = "📄 Upload PDF";
-          uploadLabel.style.background = "#f1f5f9";
-          uploadLabel.style.cursor = "pointer";
+          uploadLabel.classList.remove("loading");
+          uploadLabel.classList.add("default");
           resumeTextarea.disabled = false;
           resumeTextarea.placeholder = "Paste your resume text here or upload a PDF file... (Required)";
-          fileNameSpan.style.display = "none";
+          fileNameSpan.classList.add("hidden");
+          fileNameSpan.classList.remove("success");
           event.target.value = "";
         }
       }
@@ -799,20 +1101,20 @@
         // Warn user of empty resume input with better UX
         if (!resume) {
           // Highlight the resume textarea
-          resumeTextarea.style.borderColor = "#ef4444";
+          resumeTextarea.style.borderColor = "#f87171";
           resumeTextarea.focus();
           alert("⚠️ Please paste your resume or upload a PDF file (required).");
           // Reset border color after a delay
           setTimeout(() => {
-            resumeTextarea.style.borderColor = "#e2e8f0";
+            resumeTextarea.style.borderColor = "rgba(99, 102, 241, 0.3)";
           }, 3000);
           return;
         }
         
         // Scenario 1: Empty JD, resume input -> job search
         if (!jd) {
-          jobSearchSection.style.display = "block";
-          analysisResults.style.display = "none";
+          jobSearchSection.classList.remove("hidden");
+          analysisResults.classList.add("hidden");
           // Scroll to job search section
           jobSearchSection.scrollIntoView({ behavior: "smooth", block: "nearest" });
           return;
@@ -822,9 +1124,9 @@
         // Each new analysis will replace the previous one
         btn.disabled = true;
         btn.textContent = "Analyzing Match...";
-        analysisResults.style.display = "block";
+        analysisResults.classList.remove("hidden");
         // Keep job search section visible if it was already shown
-        jobSearchSection.style.display = "block";
+        jobSearchSection.classList.remove("hidden");
         // Clear previous analysis results and show loading
         analysisOut.innerHTML = '<div class="loading"><div class="spinner"></div><span>🤖 AI agent is analyzing your resume match...</span></div>';
         
@@ -846,7 +1148,7 @@
           } else if (data.analysis) {
             displayResults(data.analysis);
             // Show job search section after analysis (both results can be visible)
-            jobSearchSection.style.display = "block";
+            jobSearchSection.classList.remove("hidden");
             // Scroll to top of Analysis Results section
             setTimeout(() => {
               analysisResults.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -867,7 +1169,7 @@
         const out = document.getElementById("analysisOut");
         
         // Calculate color based on score
-        let scoreColor = "#ef4444"; // red
+        let scoreColor = "#f87171"; // red
         if (analysis.score >= 70) scoreColor = "#10b981"; // green
         else if (analysis.score >= 50) scoreColor = "#f59e0b"; // yellow
         
@@ -954,12 +1256,12 @@
         // Scenario 4: Warn user of empty resume input
         if (!resume) {
           // Highlight the resume textarea
-          resumeTextarea.style.borderColor = "#ef4444";
+          resumeTextarea.style.borderColor = "#f87171";
           resumeTextarea.focus();
           alert("⚠️ Please paste your resume or upload a PDF file to search for jobs.");
           // Reset border color after a delay
           setTimeout(() => {
-            resumeTextarea.style.borderColor = "#e2e8f0";
+            resumeTextarea.style.borderColor = "rgba(99, 102, 241, 0.3)";
           }, 3000);
           return;
         }
@@ -970,7 +1272,7 @@
         // Scenario 2: Job search after a job search - Replace previous results
         btn.disabled = true;
         btn.textContent = "Searching...";
-        jobSearchResults.style.display = "block";
+        jobSearchResults.classList.remove("hidden");
         // Clear previous job search results and show loading
         jobSearchOut.innerHTML = '<div class="loading"><div class="spinner"></div><span>🔍 Searching for jobs and analyzing matches... This may take a minute.</span></div>';
         
@@ -1043,9 +1345,9 @@
         
         result.jobs.forEach((job, index) => {
           const score = job.score || 0;
-          let scoreColor = "#ef4444";
-          if (score >= 70) scoreColor = "#10b981";
-          else if (score >= 50) scoreColor = "#f59e0b";
+          let scoreColor = "#f87171";
+          if (score >= 70) scoreColor = "#34d399";
+          else if (score >= 50) scoreColor = "#fbbf24";
           
           html += `
             <div class="job-card">

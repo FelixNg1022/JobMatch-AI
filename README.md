@@ -13,7 +13,9 @@ An AI-powered job matching agent built with **CoreSpeed's Zypher framework** tha
 
 ### User Experience
 
-- **Modern AI-Themed Interface** - Beautiful, responsive design with animated gradients, glassmorphism effects, and smooth animations
+- **Futuristic Dark Mode Design** - Modern AI-themed interface with prominent animated gradients, glowing effects, and futuristic aesthetics
+- **Animated Visual Effects** - Dynamic gradient animations, shimmer effects, glowing borders, and scanline overlays for a cutting-edge look
+- **Glassmorphism & Depth** - Multi-layer shadows, backdrop blur effects, and gradient borders create a sophisticated 3D appearance
 - **Fully Responsive** - Optimized for desktop, tablet, and mobile devices with touch-friendly controls
 - **Unified Web Interface** - Single-page application with seamless analysis-to-search workflow
 - **PDF Resume Upload** - Upload your resume as a PDF file for automatic text extraction
@@ -62,10 +64,12 @@ An AI-powered job matching agent built with **CoreSpeed's Zypher framework** tha
 
    ```bash
    export OPENAI_API_KEY="sk-your-api-key-here"
-   export OPENAI_MODEL="gpt-4o-mini"  # Optional
+   export OPENAI_MODEL="gpt-4o-mini"  # Optional - defaults to gpt-4o-mini
    ```
 
-   > **Note:** Groq is recommended for development (free tier available). Tavily is optional—without it, the app uses mock data for demonstration.
+   Get your key: <https://platform.openai.com/api-keys>
+
+   > **Note:** Groq is recommended for development (free tier available). OpenAI is used as a fallback if Groq API key is not configured. Tavily is optional—without it, the app uses mock data for demonstration.
 
 ### Running the Application
 
@@ -75,7 +79,7 @@ deno task run:server
 
 Open <http://localhost:8000> in your browser.
 
-> **Note:** The interface is fully responsive and works seamlessly on desktop, tablet, and mobile devices. The modern AI-themed design features animated gradients, glassmorphism effects, and smooth transitions for an enhanced user experience.
+> **Note:** The interface features a futuristic dark mode design with prominent animated gradients, glowing effects, and modern AI aesthetics. It's fully responsive and works seamlessly on desktop, tablet, and mobile devices. The design includes dynamic gradient animations, shimmer effects on text, glowing borders, scanline overlays, and sophisticated glassmorphism effects for a cutting-edge user experience.
 
 ### Usage Flow
 
@@ -119,8 +123,9 @@ jobmatch-ai/
 **Core Framework**
 
 - **Zypher** (`@corespeed/zypher`) - CoreSpeed's AI agent framework
-- **LLaMA** (Meta's open-source LLM) - Large language model for intelligent analysis
-- **Groq API** - High-performance inference provider for LLaMA (fast, free tier available)
+- **LLaMA** (Meta's open-source LLM) - Large language model for intelligent analysis (via Groq)
+- **Groq API** - High-performance inference provider for LLaMA (fast, free tier available, recommended)
+- **OpenAI API** - Alternative LLM provider (fallback if Groq is not configured)
 - **Tavily API** - AI-optimized web search with content extraction
 
 **Runtime & Language**
@@ -196,6 +201,8 @@ jobmatch-ai/
 - [Deno Documentation](https://deno.land/docs)
 - [LLaMA (Meta AI)](https://ai.meta.com/llama/)
 - [Groq API Reference](https://console.groq.com/docs)
+- [OpenAI API Documentation](https://platform.openai.com/docs)
+- [OpenAI API Reference](https://platform.openai.com/docs/api-reference)
 - [Tavily API Docs](https://docs.tavily.com)
 
 ---

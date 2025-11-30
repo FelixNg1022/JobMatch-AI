@@ -32,8 +32,6 @@ export async function searchJobs(
     searchQuery = `${query} hiring ${location} apply position opening`;
   }
   
-  console.log(`🔍 Searching for job postings: "${searchQuery}"`);
-  
   // Check if Tavily API key is configured
   const hasTavilyKey = Deno.env.get("TAVILY_API_KEY");
   
@@ -43,33 +41,22 @@ export async function searchJobs(
     
     // If we got results, return them
     if (results.length > 0) {
-      console.log(`✅ Tavily search successful! Found ${results.length} real job postings.`);
       return results;
     }
     
     // If no results, check if Tavily API key is configured
     if (!hasTavilyKey) {
-      console.log("ℹ️  No TAVILY_API_KEY configured. Using mock job data for demo.");
-      console.log("💡 Tip: Set TAVILY_API_KEY environment variable for real job search");
-      console.log("   Example: export TAVILY_API_KEY='your-api-key-here'");
       return getMockJobResults(query, limit, location);
     }
     
     // If API keys are set but no results, return empty (real search returned nothing)
-    console.log("⚠️  Tavily API key is set but search returned no results. This might mean:");
-    console.log("   - No jobs found matching your criteria");
-    console.log("   - API rate limit exceeded");
-    console.log("   - API error occurred");
     return results;
   } catch (err) {
-    console.warn("❌ Web search failed:", err instanceof Error ? err.message : String(err));
     if (!hasTavilyKey) {
-      console.log("ℹ️  No TAVILY_API_KEY configured. Using mock job data for demo.");
-      console.log("💡 Tip: Set TAVILY_API_KEY environment variable for real job search");
       return getMockJobResults(query, limit, location);
     }
     // If API key is set but search failed, return empty (don't use mock data)
-    console.log("⚠️  Tavily API key is set but search failed. Check your API key and try again.");
+    console.warn("Tavily API search failed:", err instanceof Error ? err.message : String(err));
     return [];
   }
 }
@@ -83,13 +70,10 @@ async function performWebSearch(
 ): Promise<{ title: string; url: string; snippet: string; content?: string }[]> {
   const tavilyApiKey = Deno.env.get("TAVILY_API_KEY");
   if (!tavilyApiKey) {
-    console.log("⚠️  TAVILY_API_KEY not found in environment variables");
     return [];
   }
   
   try {
-    console.log("🔍 Using Tavily API for AI-optimized job search...");
-    console.log(`   API Key: ${tavilyApiKey.substring(0, 8)}...${tavilyApiKey.substring(tavilyApiKey.length - 4)}`);
     const response = await fetch("https://api.tavily.com/search", {
       method: "POST",
       headers: {
@@ -107,12 +91,10 @@ async function performWebSearch(
     });
     
     if (!response.ok) {
-      const errorText = await response.text();
-      console.warn(`Tavily API returned ${response.status}: ${errorText.substring(0, 200)}`);
       if (response.status === 401) {
-        console.error("❌ Tavily API authentication failed. Check your API key.");
+        console.error("Tavily API authentication failed. Check your API key.");
       } else if (response.status === 429) {
-        console.warn("⚠️  Tavily API rate limit exceeded.");
+        console.warn("Tavily API rate limit exceeded.");
       }
       return [];
     }
@@ -129,8 +111,6 @@ async function performWebSearch(
     const results = data.results || [];
     
     if (results.length > 0) {
-      console.log(`✅ Tavily returned ${results.length} results, filtering for actual job postings...`);
-      
       // Filter to get actual job postings, not articles/guides
       const jobPostings = results
         .filter((r) => {
@@ -326,10 +306,8 @@ async function performWebSearch(
         }));
       
       if (jobPostings.length > 0) {
-        console.log(`✅ Filtered to ${jobPostings.length} actual job postings`);
         return jobPostings.slice(0, limit);
       } else {
-        console.log(`⚠️  No actual job postings found after filtering. Returning top results...`);
         // If filtering removed everything, return original results but warn
         return results.slice(0, limit).map((r) => ({
           title: r.title,
@@ -353,7 +331,6 @@ async function performWebSearch(
  */
 export async function extractJobContent(url: string): Promise<string> {
   try {
-    console.log(`📄 Extracting content from: ${url}`);
     const response = await fetch(url, {
       headers: {
         "User-Agent": "Mozilla/5.0 (compatible; JobSearchBot/1.0)",
