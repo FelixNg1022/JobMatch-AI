@@ -13,6 +13,8 @@ An AI-powered job matching agent built with **CoreSpeed's Zypher framework** tha
 
 ### User Experience
 
+- **Modern AI-Themed Interface** - Beautiful, responsive design with animated gradients, glassmorphism effects, and smooth animations
+- **Fully Responsive** - Optimized for desktop, tablet, and mobile devices with touch-friendly controls
 - **Unified Web Interface** - Single-page application with seamless analysis-to-search workflow
 - **PDF Resume Upload** - Upload your resume as a PDF file for automatic text extraction
 - **Dual Result Display** - View analysis results and job search results simultaneously
@@ -73,6 +75,8 @@ deno task run:server
 
 Open <http://localhost:8000> in your browser.
 
+> **Note:** The interface is fully responsive and works seamlessly on desktop, tablet, and mobile devices. The modern AI-themed design features animated gradients, glassmorphism effects, and smooth transitions for an enhanced user experience.
+
 ### Usage Flow
 
 1. **Add your resume** (required) - You can either:
@@ -105,7 +109,7 @@ jobmatch-ai/
 │       ├── local_parser.ts   # Fallback skill parser
 │       └── pdf_parser.ts     # PDF text extraction
 ├── sample/                   # Sample data files
-├── index.html                # Web interface
+├── index.html                # Modern responsive web interface
 ├── deno.json                 # Configuration
 └── README.md
 ```
