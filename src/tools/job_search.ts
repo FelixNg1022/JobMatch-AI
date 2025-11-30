@@ -186,6 +186,7 @@ async function performWebSearch(
             "careerbuilder", // CareerBuilder
             "snagajob", // Snagajob
             "eluta", // Eluta (catches eluta.ca, eluta.com, etc.)
+            "workopolis", // Workopolis (catches workopolis.com, workopolis.ca, etc.)
             
             // Tech-specific and specialized boards
             "dice", // Dice
