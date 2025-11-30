@@ -272,6 +272,10 @@
         font-family: inherit;
         font-size: 14px;
       }
+      label[for="pdfUpload"]:hover {
+        background: #e2e8f0 !important;
+        border-color: #cbd5e1 !important;
+      }
     </style>
   </head>
   <body>
@@ -281,8 +285,20 @@
       
       <!-- Unified Input Form -->
       <div>
-        <label for="resume">Resume (Plain Text) <span style="color: #ef4444;">*</span></label>
-        <textarea id="resume" placeholder="Paste your resume text here... (Required)" required></textarea>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <label for="resume">Resume <span style="color: #ef4444;">*</span></label>
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <label for="pdfUpload" style="margin: 0; cursor: pointer; padding: 8px 16px; background: #f1f5f9; border: 2px solid #e2e8f0; border-radius: 6px; font-size: 14px; font-weight: 500; color: #475569; transition: all 0.2s;">
+              📄 Upload PDF
+            </label>
+            <input type="file" id="pdfUpload" accept=".pdf" style="display: none;" onchange="handlePDFUpload(event)">
+            <span id="pdfFileName" style="font-size: 0.9em; color: #64748b; display: none;"></span>
+          </div>
+        </div>
+        <textarea id="resume" placeholder="Paste your resume text here or upload a PDF file... (Required)" required></textarea>
+        <p style="color: #64748b; font-size: 0.9em; margin-top: -15px; margin-bottom: 20px;">
+          💡 <strong>Tip:</strong> You can either paste your resume text or upload a PDF file.
+        </p>
 
         <label for="jd">Job Description (Optional)</label>
         <textarea id="jd" placeholder="Paste the full job description here... (Leave empty to search for matching jobs instead)"></textarea>
@@ -323,6 +339,78 @@
 
     <script>
       let lastAnalysis = null; // Store last analysis result
+      
+      // Handle PDF file upload
+      async function handlePDFUpload(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        
+        if (file.type !== "application/pdf") {
+          alert("Please upload a PDF file.");
+          event.target.value = ""; // Clear the input
+          return;
+        }
+        
+        const resumeTextarea = document.getElementById("resume");
+        const fileNameSpan = document.getElementById("pdfFileName");
+        const uploadLabel = document.querySelector('label[for="pdfUpload"]');
+        
+        // Show loading state
+        uploadLabel.textContent = "⏳ Processing...";
+        uploadLabel.style.background = "#e2e8f0";
+        uploadLabel.style.cursor = "not-allowed";
+        resumeTextarea.disabled = true;
+        resumeTextarea.placeholder = "Extracting text from PDF...";
+        
+        try {
+          // Create FormData to send the file
+          const formData = new FormData();
+          formData.append("pdf", file);
+          
+          // Send to server for PDF parsing
+          const response = await fetch("/upload-pdf", {
+            method: "POST",
+            body: formData
+          });
+          
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || "Failed to parse PDF");
+          }
+          
+          const data = await response.json();
+          
+          // Populate textarea with extracted text
+          resumeTextarea.value = data.text;
+          resumeTextarea.disabled = false;
+          
+          // Show file name
+          fileNameSpan.textContent = `✓ ${file.name}`;
+          fileNameSpan.style.display = "inline";
+          fileNameSpan.style.color = "#10b981";
+          
+          // Reset upload button
+          uploadLabel.textContent = "📄 Upload PDF";
+          uploadLabel.style.background = "#f1f5f9";
+          uploadLabel.style.cursor = "pointer";
+          
+          // Clear file input (allows re-uploading same file)
+          event.target.value = "";
+          
+        } catch (error) {
+          console.error("Error uploading PDF:", error);
+          alert(`Error: ${error.message}`);
+          
+          // Reset UI
+          uploadLabel.textContent = "📄 Upload PDF";
+          uploadLabel.style.background = "#f1f5f9";
+          uploadLabel.style.cursor = "pointer";
+          resumeTextarea.disabled = false;
+          resumeTextarea.placeholder = "Paste your resume text here or upload a PDF file... (Required)";
+          fileNameSpan.style.display = "none";
+          event.target.value = "";
+        }
+      }
       
       // Update button text based on JD input
       document.getElementById("jd").addEventListener("input", function() {

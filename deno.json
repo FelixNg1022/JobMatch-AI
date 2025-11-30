@@ -4,7 +4,8 @@
     "npm:rxjs-for-await": "npm:rxjs-for-await@1.0.0",
     "rxjs-for-await": "npm:rxjs-for-await@1.0.0",
     "npm:openai": "npm:openai@^4.0.0",
-    "npm:rxjs": "npm:rxjs@^7.0.0"
+    "npm:rxjs": "npm:rxjs@^7.0.0",
+    "npm:pdf-parse": "npm:pdf-parse@^1.1.1"
   },
   "tasks": {
     "run:server": "deno run --config deno.json -A src/server.ts"

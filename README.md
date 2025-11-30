@@ -14,6 +14,7 @@ An AI-powered job matching agent built with **CoreSpeed's Zypher framework** tha
 ### User Experience
 
 - **Unified Web Interface** - Single-page application with seamless analysis-to-search workflow
+- **PDF Resume Upload** - Upload your resume as a PDF file for automatic text extraction
 - **Real-time Analysis** - Streaming responses with live progress indicators
 - **Robust Fallback System** - Local parser ensures functionality even when API quotas are exceeded
 
@@ -70,7 +71,9 @@ Open <http://localhost:8000> in your browser.
 
 ### Usage Flow
 
-1. **Paste your resume** (required) in the first textarea
+1. **Add your resume** (required) - You can either:
+   - **Paste your resume text** directly into the textarea, or
+   - **Upload a PDF file** using the "📄 Upload PDF" button (text will be automatically extracted)
 2. **Option A - Analysis Mode:** Paste a job description and click "Analyze Match" to get:
    - Fit score with matched/missing skills breakdown
    - Personalized improvement suggestions
@@ -91,7 +94,8 @@ jobmatch-ai/
 │   ├── server.ts             # HTTP server & routing
 │   └── tools/
 │       ├── job_search.ts     # Tavily integration
-│       └── local_parser.ts     # Fallback skill parser
+│       ├── local_parser.ts   # Fallback skill parser
+│       └── pdf_parser.ts     # PDF text extraction
 ├── sample/                   # Sample data files
 ├── index.html                # Web interface
 ├── deno.json                 # Configuration
@@ -112,24 +116,33 @@ jobmatch-ai/
 - **TypeScript** - Type-safe development
 - **RxJS** (`rxjs-for-await`) - Reactive event streams
 
+**Additional Libraries**
+
+- **pdf-parse** - PDF text extraction for resume uploads
+
 ### How It Works
 
-1. **Agent Initialization**
+1. **Resume Input**
+   - Users can paste resume text or upload a PDF file
+   - PDF files are automatically parsed to extract text content
+   - Extracted text is populated into the resume textarea
+
+2. **Agent Initialization**
    - Creates Zypher context and initializes model provider (Groq preferred, OpenAI fallback)
    - Configures streaming support for real-time responses
 
-2. **Analysis Pipeline**
+3. **Analysis Pipeline**
    - Structured prompt engineering for consistent JSON output
    - Streaming response processing with event accumulation
    - Post-processing: filters non-technical terms, validates skill matches, auto-corrects errors
 
-3. **Job Discovery**
+4. **Job Discovery**
    - Tavily API searches web for relevant positions
    - Domain filtering removes job board noise (LinkedIn, Indeed, etc.)
    - AI analysis ranks top 3 matches by resume fit
    - Returns structured results with match breakdowns
 
-4. **Resilience**
+5. **Resilience**
    - Automatic fallback to local keyword-based parser on API failures
    - Graceful degradation maintains core functionality
 
@@ -149,6 +162,7 @@ jobmatch-ai/
 - **Skill Filtering:** Only technical skills are analyzed (benefits, salary, etc. are excluded)
 - **Job Board Filtering:** All job aggregator sites are filtered out automatically
 - **Score Variance:** LLM probabilistic nature may cause ±3-5 point variations (expected behavior)
+- **PDF Parsing:** PDF uploads extract all text content. Some formatting (tables, columns) may be simplified, but all text is preserved for analysis
 
 ## 🎯 Assessment Deliverables
 

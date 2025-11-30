@@ -18,6 +18,7 @@
     "npm:diff@8.0.2": "8.0.2",
     "npm:openai@4": "4.104.0_zod@3.25.76",
     "npm:openai@5.12.0": "5.12.0_zod@3.25.76",
+    "npm:pdf-parse@^1.1.1": "1.1.4",
     "npm:rxjs-for-await@1": "1.0.0_rxjs@7.8.2",
     "npm:rxjs-for-await@1.0.0": "1.0.0_rxjs@7.8.2",
     "npm:rxjs@7": "7.8.2",
@@ -1511,6 +1512,9 @@
       "integrity": "sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==",
       "deprecated": true
     },
+    "node-ensure@0.0.0": {
+      "integrity": "sha512-DRI60hzo2oKN1ma0ckc6nQWlHU69RH6xN0sjQTjMpChPfTYvKZdcQFfdYK2RWbJcKyUizSIy/l8OTGxMAM1QDw=="
+    },
     "node-fetch@2.7.0": {
       "integrity": "sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A==",
       "dependencies": [
@@ -1570,6 +1574,12 @@
     },
     "path-to-regexp@8.3.0": {
       "integrity": "sha512-7jdwVIRtsP8MYpdXSwOS0YdD0Du+qOoF/AEPIt88PcCFrZCzx41oxku1jD88hZBwbNUIEfpqvuhjFaMAqMTWnA=="
+    },
+    "pdf-parse@1.1.4": {
+      "integrity": "sha512-XRIRcLgk6ZnUbsHsYXExMw+krrPE81hJ6FQPLdBNhhBefqIQKXu/WeTgNBGSwPrfU0v+UCEwn7AoAUOsVKHFvQ==",
+      "dependencies": [
+        "node-ensure"
+      ]
     },
     "pkce-challenge@5.0.1": {
       "integrity": "sha512-wQ0b/W4Fr01qtpHlqSqspcj3EhBvimsdh0KlHhH8HRZnMsEa0ea2fTULOXOS9ccQr3om+GcGRk4e+isrZWV8qQ=="
@@ -1775,6 +1785,7 @@
     "dependencies": [
       "jsr:@corespeed/zypher@*",
       "npm:openai@4",
+      "npm:pdf-parse@^1.1.1",
       "npm:rxjs-for-await@1.0.0",
       "npm:rxjs@7"
     ]
