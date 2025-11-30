@@ -406,54 +406,54 @@ export async function searchAndRankJobs(
     console.log(`📋 Found ${searchResults.length} job listings. Analyzing matches...`);
     
     // Filter out job boards BEFORE analysis to save time
-    const jobBoardDomains = [
+    // Using job board names (not exact domains) to catch all variations (.com, .ca, .co.uk, etc.)
+    const jobBoardNames = [
       // General job boards
-      "linkedin.com/jobs", // LinkedIn job board
-      "indeed.com", // Indeed
-      "glassdoor.com", // Glassdoor
-      "monster.com", // Monster
-      "ziprecruiter.com", // ZipRecruiter
-      "simplyhired.com", // SimplyHired
-      "careerbuilder.com", // CareerBuilder
-      "snagajob.com", // Snagajob
+      "linkedin", // LinkedIn (catches linkedin.com, linkedin.ca, etc.)
+      "indeed", // Indeed (catches indeed.com, indeed.ca, etc.)
+      "glassdoor", // Glassdoor (catches glassdoor.com, glassdoor.ca, etc.)
+      "monster", // Monster
+      "ziprecruiter", // ZipRecruiter
+      "simplyhired", // SimplyHired
+      "careerbuilder", // CareerBuilder
+      "snagajob", // Snagajob
       
       // Tech-specific and specialized boards
-      "dice.com", // Dice
-      "builtin.com", // BuiltIn
-      "builtinsf.com", // BuiltIn SF
-      "builtinvancouver.org", // BuiltIn Vancouver
-      "crunchboard.com", // Crunchboard (TechCrunch)
-      "hired.com", // Hired
-      "arc.dev", // Arc.dev
-      "authenticjobs.com", // Authentic Jobs
-      "stackoverflow.com/jobs", // Stack Overflow jobs
-      "triplebyte.com", // Triplebyte
-      "jobright.ai", // JobRight AI
-      "devjobsscanner.com", // Dev Jobs Scanner
+      "dice", // Dice
+      "builtin", // BuiltIn (catches builtin.com, builtinsf.com, builtinvancouver.org, etc.)
+      "crunchboard", // Crunchboard (TechCrunch)
+      "hired", // Hired
+      "arc.dev", // Arc.dev (keep exact match for this one)
+      "authenticjobs", // Authentic Jobs
+      "stackoverflow", // Stack Overflow (catches stackoverflow.com/jobs, etc.)
+      "triplebyte", // Triplebyte
+      "jobright", // JobRight AI
+      "devjobsscanner", // Dev Jobs Scanner
       
       // Startup and remote-focused boards
-      "wellfound.com", // Wellfound (formerly AngelList)
-      "angel.co", // AngelList (old domain)
-      "weworkremotely.com", // We Work Remotely
-      "flexjobs.com", // FlexJobs
-      "remote.co", // Remote.co
-      "remotive.io", // Remotive
-      "remoteok.com", // RemoteOK
-      "relocate.me", // Relocate.me
+      "wellfound", // Wellfound (formerly AngelList)
+      "angel.co", // AngelList (old domain - keep exact match)
+      "weworkremotely", // We Work Remotely
+      "flexjobs", // FlexJobs
+      "remote.co", // Remote.co (keep exact match)
+      "remotive", // Remotive
+      "remoteok", // RemoteOK
+      "relocate.me", // Relocate.me (keep exact match)
       
       // Language-specific and niche boards
-      "python.org/jobs", // Python Job Board
-      "golang.cafe", // Golang Cafe
-      "news.ycombinator.com", // Hacker News "Who is Hiring?"
-      "reddit.com/r/python", // Reddit Python jobs
-      "reddit.com/r/golang", // Reddit Golang jobs
-      "reddit.com/r/forhire", // Reddit for hire
-      "reddit.com/r/jobbit", // Reddit jobbit
+      "python.org", // Python Job Board (keep exact match for python.org/jobs)
+      "golang.cafe", // Golang Cafe (keep exact match)
+      "ycombinator", // Hacker News "Who is Hiring?" (catches news.ycombinator.com)
+      "reddit.com/r/python", // Reddit Python jobs (keep exact match)
+      "reddit.com/r/golang", // Reddit Golang jobs (keep exact match)
+      "reddit.com/r/forhire", // Reddit for hire (keep exact match)
+      "reddit.com/r/jobbit", // Reddit jobbit (keep exact match)
     ];
     
     const filteredResults = searchResults.filter(result => {
       const url = (result.url || "").toLowerCase();
-      const isJobBoard = jobBoardDomains.some(domain => url.includes(domain));
+      // Check if URL contains any job board name
+      const isJobBoard = jobBoardNames.some(name => url.includes(name));
       return !isJobBoard; // Only keep non-job-board results
     });
     
