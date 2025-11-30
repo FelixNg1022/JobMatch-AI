@@ -145,7 +145,7 @@ jobmatch-ai/
 4. **Job Discovery**
    - Tavily API searches web for relevant positions
    - Intelligent filtering by job board name (catches all domain variations: .com, .ca, .co.uk, etc.)
-   - Automatically filters out 40+ job board domains (LinkedIn, Indeed, Glassdoor, etc.)
+   - Automatically filters out 35+ job boards including LinkedIn, Indeed, Glassdoor, Eluta, Levels.fyi, and more
    - AI analysis ranks top 3 matches by resume fit
    - Returns structured results with match breakdowns
 

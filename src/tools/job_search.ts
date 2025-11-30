@@ -173,54 +173,55 @@ async function performWebSearch(
           ];
           
           // Exclude ALL job board domains completely (user wants direct company job postings only)
-          // This list is also used in agent.ts for pre-filtering, keep in sync
-          const jobBoardDomains = [
+          // Using job board names (not exact domains) to catch all variations (.com, .ca, .co.uk, etc.)
+          // This list should match the one in agent.ts for consistency
+          const jobBoardNames = [
             // General job boards
-            "linkedin.com/jobs", // LinkedIn job board
-            "indeed.com", // Indeed
-            "glassdoor.com", // Glassdoor
-            "monster.com", // Monster
-            "ziprecruiter.com", // ZipRecruiter
-            "simplyhired.com", // SimplyHired
-            "careerbuilder.com", // CareerBuilder
-            "snagajob.com", // Snagajob
+            "linkedin", // LinkedIn (catches linkedin.com, linkedin.ca, etc.)
+            "indeed", // Indeed (catches indeed.com, indeed.ca, etc.)
+            "glassdoor", // Glassdoor (catches glassdoor.com, glassdoor.ca, etc.)
+            "monster", // Monster
+            "ziprecruiter", // ZipRecruiter
+            "simplyhired", // SimplyHired
+            "careerbuilder", // CareerBuilder
+            "snagajob", // Snagajob
+            "eluta", // Eluta (catches eluta.ca, eluta.com, etc.)
             
             // Tech-specific and specialized boards
-            "dice.com", // Dice
-            "builtin.com", // BuiltIn
-            "builtinsf.com", // BuiltIn SF
-            "builtinvancouver.org", // BuiltIn Vancouver
-            "crunchboard.com", // Crunchboard (TechCrunch)
-            "hired.com", // Hired
-            "arc.dev", // Arc.dev
-            "authenticjobs.com", // Authentic Jobs
-            "stackoverflow.com/jobs", // Stack Overflow jobs
-            "triplebyte.com", // Triplebyte
-            "jobright.ai", // JobRight AI
-            "devjobsscanner.com", // Dev Jobs Scanner
+            "dice", // Dice
+            "builtin", // BuiltIn (catches builtin.com, builtinsf.com, builtinvancouver.org, etc.)
+            "crunchboard", // Crunchboard (TechCrunch)
+            "hired", // Hired
+            "arc.dev", // Arc.dev (keep exact match for this one)
+            "authenticjobs", // Authentic Jobs
+            "stackoverflow", // Stack Overflow (catches stackoverflow.com/jobs, etc.)
+            "triplebyte", // Triplebyte
+            "jobright", // JobRight AI
+            "devjobsscanner", // Dev Jobs Scanner
+            "levels.fyi", // Levels.fyi (salary and job board)
             
             // Startup and remote-focused boards
-            "wellfound.com", // Wellfound (formerly AngelList)
-            "angel.co", // AngelList (old domain)
-            "weworkremotely.com", // We Work Remotely
-            "flexjobs.com", // FlexJobs
-            "remote.co", // Remote.co
-            "remotive.io", // Remotive
-            "remoteok.com", // RemoteOK
-            "relocate.me", // Relocate.me
+            "wellfound", // Wellfound (formerly AngelList)
+            "angel.co", // AngelList (old domain - keep exact match)
+            "weworkremotely", // We Work Remotely
+            "flexjobs", // FlexJobs
+            "remote.co", // Remote.co (keep exact match)
+            "remotive", // Remotive
+            "remoteok", // RemoteOK
+            "relocate.me", // Relocate.me (keep exact match)
             
             // Language-specific and niche boards
-            "python.org/jobs", // Python Job Board
-            "golang.cafe", // Golang Cafe
-            "news.ycombinator.com", // Hacker News "Who is Hiring?"
-            "reddit.com/r/python", // Reddit Python jobs
-            "reddit.com/r/golang", // Reddit Golang jobs
-            "reddit.com/r/forhire", // Reddit for hire
-            "reddit.com/r/jobbit", // Reddit jobbit
+            "python.org", // Python Job Board (keep exact match for python.org/jobs)
+            "golang.cafe", // Golang Cafe (keep exact match)
+            "ycombinator", // Hacker News "Who is Hiring?" (catches news.ycombinator.com)
+            "reddit.com/r/python", // Reddit Python jobs (keep exact match)
+            "reddit.com/r/golang", // Reddit Golang jobs (keep exact match)
+            "reddit.com/r/forhire", // Reddit for hire (keep exact match)
+            "reddit.com/r/jobbit", // Reddit jobbit (keep exact match)
           ];
           
-          // Check if URL is from a job board domain - exclude ALL job board links
-          const isJobBoardDomain = jobBoardDomains.some(domain => url.includes(domain));
+          // Check if URL contains any job board name
+          const isJobBoardDomain = jobBoardNames.some(name => url.includes(name));
           
           // Completely exclude job board domains - user wants direct company job postings only
           if (isJobBoardDomain) {

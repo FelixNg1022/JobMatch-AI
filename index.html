@@ -345,8 +345,6 @@
     </div>
 
     <script>
-      let lastAnalysis = null; // Store last analysis result
-      
       // Handle PDF file upload
       async function handlePDFUpload(event) {
         const file = event.target.files[0];
@@ -487,7 +485,6 @@
           if (data.error) {
             analysisOut.innerHTML = `<div class="error">Error: ${data.error}</div>`;
           } else if (data.analysis) {
-            lastAnalysis = data.analysis;
             displayResults(data.analysis);
             // Show job search section after analysis (both results can be visible)
             jobSearchSection.style.display = "block";

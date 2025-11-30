@@ -77,9 +77,9 @@ async function start() {
           const body = await req.json();
           const resume = body.resume || "";
           const preferences = {
-            role: body.role || body.rolePreferences?.role,
-            location: body.location || body.rolePreferences?.location,
-            keywords: body.keywords || body.rolePreferences?.keywords,
+            role: body.role,
+            location: body.location,
+            keywords: body.keywords,
           };
           
           if (!resume) {
