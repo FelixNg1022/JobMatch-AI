@@ -15,6 +15,8 @@ An AI-powered job matching agent built with **CoreSpeed's Zypher framework** tha
 
 - **Unified Web Interface** - Single-page application with seamless analysis-to-search workflow
 - **PDF Resume Upload** - Upload your resume as a PDF file for automatic text extraction
+- **Dual Result Display** - View analysis results and job search results simultaneously
+- **Smart Validation** - Visual feedback and clear error messages for better UX
 - **Real-time Analysis** - Streaming responses with live progress indicators
 - **Robust Fallback System** - Local parser ensures functionality even when API quotas are exceeded
 
@@ -77,11 +79,15 @@ Open <http://localhost:8000> in your browser.
 2. **Option A - Analysis Mode:** Paste a job description and click "Analyze Match" to get:
    - Fit score with matched/missing skills breakdown
    - Personalized improvement suggestions
+   - Results displayed in "📊 Analysis Results" section
    - Job search section appears automatically after analysis
 3. **Option B - Search Mode:** Leave JD empty and click "🔍 Search Jobs" to:
-   - Enter role, location, and keywords
+   - Enter role, location, and keywords (all optional)
    - Get top 3 matching jobs ranked by fit score
    - View detailed match analysis for each position
+   - Results displayed in "🔍 Job Search Results" section
+
+**Note:** Both analysis and job search results can be displayed simultaneously, allowing you to compare and reference both sets of results at the same time.
 
 ## 🏗️ Architecture
 
@@ -138,7 +144,8 @@ jobmatch-ai/
 
 4. **Job Discovery**
    - Tavily API searches web for relevant positions
-   - Domain filtering removes job board noise (LinkedIn, Indeed, etc.)
+   - Intelligent filtering by job board name (catches all domain variations: .com, .ca, .co.uk, etc.)
+   - Automatically filters out 40+ job board domains (LinkedIn, Indeed, Glassdoor, etc.)
    - AI analysis ranks top 3 matches by resume fit
    - Returns structured results with match breakdowns
 
@@ -155,14 +162,18 @@ jobmatch-ai/
 | **Mock job data shown** | Set `TAVILY_API_KEY` for real job search results |
 | **Port 8000 in use** | Use `PORT=9001 deno task run:server` or kill existing process |
 | **Import errors** | Always use `deno task run:server` (includes proper config) |
+| **Empty resume warning** | Resume field will highlight in red if empty; paste text or upload PDF |
+| **PDF upload fails** | Ensure file is a valid PDF; check browser console for detailed errors |
 
 ## 📋 Important Notes
 
 - **Default Behavior:** Groq is used if `GROQ_API_KEY` is set; otherwise falls back to OpenAI
 - **Skill Filtering:** Only technical skills are analyzed (benefits, salary, etc. are excluded)
-- **Job Board Filtering:** All job aggregator sites are filtered out automatically
+- **Job Board Filtering:** Filters by job board name (e.g., "glassdoor") to catch all domain variations (.com, .ca, .co.uk, etc.)
 - **Score Variance:** LLM probabilistic nature may cause ±3-5 point variations (expected behavior)
 - **PDF Parsing:** PDF uploads extract all text content. Some formatting (tables, columns) may be simplified, but all text is preserved for analysis
+- **Multiple Operations:** You can run multiple analyses or job searches - each new operation updates its respective results section
+- **Simultaneous Results:** Analysis and job search results are displayed in separate sections and can be viewed simultaneously
 
 ## 🎯 Assessment Deliverables
 

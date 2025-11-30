@@ -417,6 +417,7 @@ export async function searchAndRankJobs(
       "simplyhired", // SimplyHired
       "careerbuilder", // CareerBuilder
       "snagajob", // Snagajob
+      "eluta", // Eluta (catches eluta.ca, eluta.com, etc.)
       
       // Tech-specific and specialized boards
       "dice", // Dice
@@ -429,6 +430,7 @@ export async function searchAndRankJobs(
       "triplebyte", // Triplebyte
       "jobright", // JobRight AI
       "devjobsscanner", // Dev Jobs Scanner
+      "levels.fyi", // Levels.fyi (salary and job board)
       
       // Startup and remote-focused boards
       "wellfound", // Wellfound (formerly AngelList)
